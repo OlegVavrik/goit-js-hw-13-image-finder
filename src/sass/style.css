@@ -1,5 +1,5 @@
 body {
-background-color: tomato;
+background-color: rgb(34, 253, 224);
 
 }
 .container {
@@ -79,7 +79,7 @@ background-color: tomato;
  }
  
  .photo-card:hover{
-	box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+	box-shadow: 0px 2px 1px -1px rgba(255, 10, 10, 0.2),
 	  0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
  }
  
@@ -92,17 +92,20 @@ background-color: tomato;
 	height: 60px;
 	text-align: center;
 	line-height: 30px;
-	background-color: rgb(71, 255, 255);
-	color: #444;
+	background-color: rgb(248, 87, 122);
+	color: rgb(28, 42, 230);
 	cursor: pointer;
 	border-radius: 35%;
 	display: none;
  }
  
  .back_to_top:hover {
-	background: #48a7d6;
+	background: #f7f336;
  }
  
  .back_to_top-show {
 	display: block;
  }
+
+
+
