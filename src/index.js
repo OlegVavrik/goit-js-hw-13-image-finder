@@ -1,57 +1,58 @@
 import './sass/main.scss';
+import './sass/style.css';
 import cardMarkup from './template/cards.hbs';
+import refs from './js/refs.js';
 
 
-const refs = {
-	form: document.querySelector('.search-form'),
-   formBtn: document.querySelector('.js-form-btn'),
-   loadMoreBtn: document.querySelector('.js-load-btn'),
-   list: document.querySelector('.gallery'),
-   goTopBtn: document.querySelector('.back_to_top'),
-};
 
 refs.form.addEventListener('submit', formSubmit);
-refs.loadMoreBtn.addEventListener('click', loadBtn);
+refs.loadMoreBtn.addEventListener('click', loadBtn,scroll);
 refs.list.addEventListener('click', pictureClick);
 window.addEventListener('scroll', trackScroll);
 refs.goTopBtn.addEventListener('click', backToTop);
 
+
+
 let page = 1;
 
 function formSubmit(e) {
-  e.preventDefault();
-  const value = e.currentTarget.elements.query.value;
-  if (!value) {
-    refs.loadMoreBtn.classList.add('is-hidden');
-    return refs.list.innerHTML='';
-  }
-  const BASE_URL = 'https://pixabay.com/api/';
-  const options = new URLSearchParams({
-    key: '24236272-ddca1f1b5e29ebc5030ad9a1b',
-    image_type: 'photo',
-    q: value,
-    orientation: 'horizontal',
-    // page: 1,
-    per_page: 12,
-  });
+	e.preventDefault();
+	const value = e.currentTarget.elements.query.value;
+ 
+ if(!value.trim()) return alert('Нужно что-то ввести!!!')
+ 
+	if (!value) {
+	  refs.loadMoreBtn.classList.add('is-hidden');
+	  return refs.list.innerHTML='';
+	}
+	const BASE_URL = 'https://pixabay.com/api/';
+	const options = new URLSearchParams({
+	  key: '24236272-ddca1f1b5e29ebc5030ad9a1b',
+	  image_type: 'photo',
+	  q: value,
+	  orientation: 'horizontal',
+	  per_page: 12,
+	});
+ 
+	fetch(`${BASE_URL}?${options}&page=${page}`)
+	  .then(res => res.json())
+	  .then(data => {
+		 renderCard(data);
+		 refs.loadMoreBtn.classList.remove('is-hidden');
+	  });
+ 
+	function renderCard({ hits }) {
+	  refs.list.innerHTML = cardMarkup(hits);
+	}
+ }
 
-  fetch(`${BASE_URL}?${options}&page=${page}`)
-    .then(res => res.json())
-    .then(data => {
-      renderCard(data);
-      refs.loadMoreBtn.classList.remove('is-hidden');
-    });
-
-  function renderCard({ hits }) {
-    refs.list.innerHTML = cardMarkup(hits);
-  }
-}
 
 function incrementPage () {
   page += 1;
 };
 
 function loadBtn() {
+
   incrementPage();
   const BASE_URL = 'https://pixabay.com/api/';
   const options = new URLSearchParams({
@@ -77,6 +78,7 @@ function loadBtn() {
       
   }
 }
+
 
 const hiddenElement = refs.loadMoreBtn;
 const btn = refs.formBtn;
@@ -114,3 +116,22 @@ function backToTop() {
     setTimeout(backToTop, 0);
   }
 }
+
+
+refs.loadMoreBtn.onclick = function(){
+  
+    
+      let lastItem = document.querySelectorAll(".gallery");
+    
+      lastItem[lastItem.length - (apiService.perPage - 1)].scrollIntoView({
+        behavior:"smooth",
+        block:"end"
+      })
+      return alert ('End')
+    
+  }
+
+
+
+
+
